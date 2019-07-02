@@ -2,10 +2,22 @@
 usernameList = []
 passwordList = ["rikimaru"]
 
+
+def NewUser():
+    newUser = (input("Please enter a new username: "))
+    usernameList.append(newUser)
+
+# Creation
+NewUser()
+
 # Username
-newUser = (input("Please enter your username: "))
-usernameList.append(newUser)
-userNumber = usernameList.index(newUser)
+inputUser = ""
+userMessage = "Please enter your username: "
+while inputUser not in usernameList:
+    inputUser = input(userMessage)
+    userMessage = "ERROR: Username cannot be found, Please re-try: "
+if inputUser in usernameList:
+    userNumber = usernameList.index(inputUser)
 
 # Password
 correctPassword = passwordList[userNumber]
