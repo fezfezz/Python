@@ -1,25 +1,60 @@
+import sys
 
-usernameList = ["test1", "test2"]
-passwordList = ["test1", "test2"]
+
+usernameList = ["test1", "test2", "fez"]
+passwordList = ["test1", "test2", "eskettit"]
 passwordBlackList = [",", "_", "[", "]", ";", "'", '"',"/", "=", "+", "-", ".", "!", "@"]
 
+
+def main():
+    selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Exit"
+    selection = input(selectMessage)
+    while selection != "3":
+        if selection == "1":
+            NewUser()
+            NewPass()
+            main()
+        elif selection == "2":
+            userNumber = VerifyUsername()
+            VerifyPassword(userNumber)
+            main()
+        selectMessage = "Please select a valid option"
+        selection = input(selectMessage)
+    else:
+        sys.exit()
+
+
 # Validates that all characters in user inputted Password do not match any in the black list
-def validatePassword(inputPass):
+def ValidatePassword(inputPass):
     passwordBlackList = [",", "_", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "@"]
     if any(char in passwordBlackList for char in inputPass):
         return False
     return True
 
+
+# Validates that no other user is currently called the same name
+def ValidateUsername(inputUser):
+    for name in usernameList:
+        if name == inputUser:
+            return False
+    return True
+
+
 # Creates a new Username
 def NewUser():
-    newUser = (input("Please enter a new username: "))
+    inputUser = (input("Please enter a new username: "))
+    while ValidateUsername(inputUser) == False:
+        userMessage = "ERROR: Username is already taken!" + "\n" + "Please enter a new username"
+        inputUser = input(userMessage)
+    newUser = inputUser
     usernameList.append(newUser)
+
 
 # Creates a new Password
 def NewPass():
     passMessage = "Please enter a new password: "
     inputPass = input(passMessage)
-    while validatePassword(inputPass) == False:
+    while ValidatePassword(inputPass) == False:
         passMessage = "ERROR: Please do not include illegal characters (, . _ etc)"
         inputPass = input(passMessage)
 
@@ -27,8 +62,9 @@ def NewPass():
         newPass = inputPass
         passwordList.append(newPass)
 
+
 # Username Verification
-def verifyUsername():
+def VerifyUsername():
     inputUser = ""
     userMessage = "Please enter your username: "
 
@@ -41,8 +77,9 @@ def verifyUsername():
         print("Username found!")
         return userNumber
 
+
 # Password Verification
-def verifyPassword(userNumber):
+def VerifyPassword(userNumber):
     correctPassword = passwordList[userNumber]
     inputPassword = ""
     passMessage = "Please enter your password: "
@@ -54,9 +91,8 @@ def verifyPassword(userNumber):
     if correctPassword == inputPassword:
         print("Welcome, %s!" % usernameList[userNumber])
 
-# Creation
-NewUser()
-NewPass()
-# Verification
-userNumber = verifyUsername()
-verifyPassword(userNumber)
+
+if __name__ == "__main__": main()
+
+
+
