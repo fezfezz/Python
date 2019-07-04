@@ -3,7 +3,7 @@ import sys
 
 usernameList = ["test1", "test2", "fez"]
 passwordList = ["test1", "test2", "eskettit"]
-passwordBlackList = [",", "_", "[", "]", ";", "'", '"',"/", "=", "+", "-", ".", "!", "@"]
+passwordBlackList = [",", "_", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~"]
 resettingPassword = False
 
 
@@ -104,6 +104,7 @@ def VerifyPassword(userNumber):
         return True
 
 
+# Resets password using Verify() and New() functions
 def resetPassword():
     userNumber = VerifyUsername()
     global resettingPassword
