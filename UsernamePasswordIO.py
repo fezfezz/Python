@@ -4,6 +4,7 @@ import sys
 usernameList = ["test1", "test2", "fez"]
 passwordList = ["test1", "test2", "eskettit"]
 passwordBlackList = [",", "_", "[", "]", ";", "'", '"',"/", "=", "+", "-", ".", "!", "@"]
+replacingPassword = False
 
 
 def main():
@@ -16,7 +17,8 @@ def main():
             main()
         elif selection == "2":
             userNumber = VerifyUsername()
-            VerifyPassword(userNumber)
+            if (VerifyPassword(userNumber) == True):
+                print("Welcome, %s!" % usernameList[userNumber])
             main()
         selectMessage = "Please select a valid option"
         selection = input(selectMessage)
@@ -52,11 +54,17 @@ def NewUser():
 
 # Creates a new Password
 def NewPass():
+    global replacingPassword
     passMessage = "Please enter a new password: "
+    if replacingPassword == True: passMessage = "Please enter a NEW password: "
     inputPass = input(passMessage)
     while ValidatePassword(inputPass) == False:
-        passMessage = "ERROR: Please do not include illegal characters (, . _ etc)"
+        passMessage = "ERROR: Please do not include special symbols (, . _ @ etc)"
         inputPass = input(passMessage)
+
+    if replacingPassword == True:
+        newPass = inputPass
+        return newPass
 
     else:
         newPass = inputPass
@@ -67,7 +75,6 @@ def NewPass():
 def VerifyUsername():
     inputUser = ""
     userMessage = "Please enter your username: "
-
     while inputUser not in usernameList:
         inputUser = input(userMessage)
         userMessage = "ERROR: Username cannot be found, Please re-try: "
@@ -83,13 +90,27 @@ def VerifyPassword(userNumber):
     correctPassword = passwordList[userNumber]
     inputPassword = ""
     passMessage = "Please enter your password: "
+    if replacingPassword == True:
+        passMessage = "Please enter your OLD password: "
 
-    while correctPassword != inputPassword:
+    while inputPassword != correctPassword:
         inputPassword = (input(passMessage))
         passMessage = "ERROR: Password is incorrect!, Please re-try: "
 
-    if correctPassword == inputPassword:
-        print("Welcome, %s!" % usernameList[userNumber])
+    if inputPassword == correctPassword:
+        return True
+
+
+def replacePassword():
+    replacementMessage = "Please enter a NEW password"
+    inputNewPass = ""
+    userNumber = VerifyUsername()
+    global replacingPassword
+    replacingPassword = True
+    if VerifyPassword(userNumber) == True:
+        newPass = NewPass()
+    del passwordList[userNumber]
+    passwordList.insert(userNumber, newPass)
 
 
 if __name__ == "__main__": main()
