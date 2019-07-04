@@ -4,13 +4,13 @@ import sys
 usernameList = ["test1", "test2", "fez"]
 passwordList = ["test1", "test2", "eskettit"]
 passwordBlackList = [",", "_", "[", "]", ";", "'", '"',"/", "=", "+", "-", ".", "!", "@"]
-replacingPassword = False
+resettingPassword = False
 
 
 def main():
-    selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Exit"
+    selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Reset Password" + "\n" + "4: Exit"
     selection = input(selectMessage)
-    while selection != "3":
+    while selection != "4":
         if selection == "1":
             NewUser()
             NewPass()
@@ -19,6 +19,9 @@ def main():
             userNumber = VerifyUsername()
             if (VerifyPassword(userNumber) == True):
                 print("Welcome, %s!" % usernameList[userNumber])
+            main()
+        elif selection == "3":
+            resetPassword()
             main()
         selectMessage = "Please select a valid option"
         selection = input(selectMessage)
@@ -54,15 +57,15 @@ def NewUser():
 
 # Creates a new Password
 def NewPass():
-    global replacingPassword
+    global resettingPassword
     passMessage = "Please enter a new password: "
-    if replacingPassword == True: passMessage = "Please enter a NEW password: "
+    if resettingPassword == True: passMessage = "Please enter a NEW password: "
     inputPass = input(passMessage)
     while ValidatePassword(inputPass) == False:
         passMessage = "ERROR: Please do not include special symbols (, . _ @ etc)"
         inputPass = input(passMessage)
 
-    if replacingPassword == True:
+    if resettingPassword == True:
         newPass = inputPass
         return newPass
 
@@ -90,7 +93,7 @@ def VerifyPassword(userNumber):
     correctPassword = passwordList[userNumber]
     inputPassword = ""
     passMessage = "Please enter your password: "
-    if replacingPassword == True:
+    if resettingPassword == True:
         passMessage = "Please enter your OLD password: "
 
     while inputPassword != correctPassword:
@@ -101,16 +104,15 @@ def VerifyPassword(userNumber):
         return True
 
 
-def replacePassword():
-    replacementMessage = "Please enter a NEW password"
-    inputNewPass = ""
+def resetPassword():
     userNumber = VerifyUsername()
-    global replacingPassword
-    replacingPassword = True
+    global resettingPassword
+    resettingPassword = True
     if VerifyPassword(userNumber) == True:
         newPass = NewPass()
     del passwordList[userNumber]
     passwordList.insert(userNumber, newPass)
+    resettingPassword = False
 
 
 if __name__ == "__main__": main()
