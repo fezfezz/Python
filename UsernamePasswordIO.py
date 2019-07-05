@@ -1,9 +1,10 @@
 import sys
+import PySimpleGUI as sg
 
 
 usernameList = ["test1", "test2", "fez"]
 passwordList = ["test1", "test2", "eskettit"]
-passwordBlackList = [",", "_", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~"]
+passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", ""]
 resettingPassword = False
 
 
@@ -14,6 +15,7 @@ def main():
         if selection == "1":
             NewUser()
             NewPass()
+            print("New user %s registered!" % usernameList[-1])
             main()
         elif selection == "2":
             userNumber = VerifyUsername()
@@ -31,7 +33,6 @@ def main():
 
 # Validates that all characters in user inputted Password do not match any in the black list
 def ValidatePassword(inputPass):
-    passwordBlackList = [",", "_", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "@"]
     if any(char in passwordBlackList for char in inputPass):
         return False
     return True
@@ -62,7 +63,7 @@ def NewPass():
     if resettingPassword == True: passMessage = "Please enter a NEW password: "
     inputPass = input(passMessage)
     while ValidatePassword(inputPass) == False:
-        passMessage = "ERROR: Please do not include special symbols (, . _ @ etc)"
+        passMessage = "ERROR: Please do not include any blank spaces or special symbols (, . _ @ etc)"
         inputPass = input(passMessage)
 
     if resettingPassword == True:
@@ -76,7 +77,7 @@ def NewPass():
 
 # Username Verification
 def VerifyUsername():
-    inputUser = ""
+    inputUser = "null"
     userMessage = "Please enter your username: "
     while inputUser not in usernameList:
         inputUser = input(userMessage)
@@ -91,7 +92,7 @@ def VerifyUsername():
 # Password Verification
 def VerifyPassword(userNumber):
     correctPassword = passwordList[userNumber]
-    inputPassword = ""
+    inputPassword = "null"
     passMessage = "Please enter your password: "
     if resettingPassword == True:
         passMessage = "Please enter your OLD password: "
@@ -116,7 +117,6 @@ def resetPassword():
     resettingPassword = False
 
 
-if __name__ == "__main__": main()
-
+main()
 
 
