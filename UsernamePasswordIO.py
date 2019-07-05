@@ -1,14 +1,17 @@
 import sys
+import csv
 import PySimpleGUI as sg
+from collections import defaultdict
 
 
-usernameList = ["test1", "test2", "fez"]
-passwordList = ["test1", "test2", "eskettit"]
+usernameList = []
+passwordList = []
 passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", ""]
 resettingPassword = False
 
 
 def main():
+    readFile()
     selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Reset Password" + "\n" + "4: Exit"
     selection = input(selectMessage)
     while selection != "4":
@@ -115,6 +118,15 @@ def resetPassword():
     del passwordList[userNumber]
     passwordList.insert(userNumber, newPass)
     resettingPassword = False
+
+# this is completely fucked, reading normally just splits everything into rows, so it is useless
+# the fix to this is to probably just read the file, convert to a string, split the string into list
+def readFile():
+    global usernameList
+    global passwordList
+
+
+
 
 
 main()
