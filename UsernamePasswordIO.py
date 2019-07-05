@@ -126,7 +126,13 @@ def readFile():
     global passwordList
 
 
-
+def writeFile():
+    global usernameList
+    global passwordList
+    # mylist = ["fez", "vortx", "pandadude"] # - mylist would be replaced with usernameList
+    # with open("test.csv", 'w', newline='') as myfile:
+    # wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    # wr.writerow(mylist)
 
 
 main()
