@@ -11,6 +11,7 @@ resettingPassword = False
 
 
 def main():
+    readFile()
     writeFile()
     selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Reset Password" + "\n" + "4: Exit"
     selection = input(selectMessage)
@@ -110,8 +111,8 @@ def VerifyPassword(userNumber):
 
 # Resets password using Verify() and New() functions
 def resetPassword():
-    userNumber = VerifyUsername()
     global resettingPassword
+    userNumber = VerifyUsername()
     resettingPassword = True
     if VerifyPassword(userNumber) == True:
         newPass = NewPass()
@@ -125,16 +126,24 @@ def resetPassword():
 def readFile():
     global usernameList
     global passwordList
+    # Username reading
+    with open("usernames.csv", 'rb') as usernameFile:
+        reader = csv.reader(usernameFile, delimiter=' ', quotechar='|')
+        for row in reader:
+            print(', '.join(row))
 
 
-# Username saving
+# Username and Password saving
 def writeFile():
     global usernameList
     global passwordList
 
+    # Username writing
     with open("usernames.csv", 'w', newline='') as usernameFile:
         wr = csv.writer(usernameFile, quoting=csv.QUOTE_ALL)
         wr.writerow(usernameList)
+
+    # Password writing
     with open("passwords.csv", 'w', newline='') as passwordFile:
         wr = csv.writer(passwordFile, quoting=csv.QUOTE_ALL)
         wr.writerow(passwordList)
