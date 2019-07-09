@@ -4,14 +4,14 @@ import PySimpleGUI as sg
 from collections import defaultdict
 
 
-usernameList = []
-passwordList = []
+usernameList = ["jeff", "meme"]
+passwordList = ["jeff", "meme"]
 passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", ""]
 resettingPassword = False
 
 
 def main():
-    readFile()
+    writeFile()
     selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Reset Password" + "\n" + "4: Exit"
     selection = input(selectMessage)
     while selection != "4":
@@ -119,6 +119,7 @@ def resetPassword():
     passwordList.insert(userNumber, newPass)
     resettingPassword = False
 
+
 # this is completely fucked, reading normally just splits everything into rows, so it is useless
 # the fix to this is to probably just read the file, convert to a string, split the string into list
 def readFile():
@@ -126,15 +127,17 @@ def readFile():
     global passwordList
 
 
-
+# Username saving
 def writeFile():
     global usernameList
     global passwordList
 
-    # Username saving
-    with open("usernames.csv", 'w', newline='') as usernamefile:
-        wr = csv.writer(usernamefile, quoting=csv.QUOTE_ALL)
+    with open("usernames.csv", 'w', newline='') as usernameFile:
+        wr = csv.writer(usernameFile, quoting=csv.QUOTE_ALL)
         wr.writerow(usernameList)
+    with open("passwords.csv", 'w', newline='') as passwordFile:
+        wr = csv.writer(passwordFile, quoting=csv.QUOTE_ALL)
+        wr.writerow(passwordList)
 
 
 main()
