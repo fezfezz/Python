@@ -4,15 +4,14 @@ import PySimpleGUI as sg
 from collections import defaultdict
 
 
-usernameList = ["jeff", "meme"]
-passwordList = ["jeff", "meme"]
+usernameList = []
+passwordList = []
 passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", ""]
 resettingPassword = False
 
 
 def main():
     readFile()
-    writeFile()
     selectMessage = "\n" + "Please select an option:" + "\n" + "1: Sign Up" + "\n" + "2: Log In" + "\n" + "3: Reset Password" + "\n" + "4: Exit"
     selection = input(selectMessage)
     while selection != "4":
@@ -126,11 +125,19 @@ def resetPassword():
 def readFile():
     global usernameList
     global passwordList
+
     # Username reading
-    with open("usernames.csv", 'rb') as usernameFile:
-        reader = csv.reader(usernameFile, delimiter=' ', quotechar='|')
-        for row in reader:
-            print(', '.join(row))
+    with open("usernames.csv", 'r') as usernameFile:
+        reader = csv.reader(usernameFile)
+        for user in reader:
+            usernameList.append(user)
+            print(usernameList)
+
+    # Password reading
+    with open("passwords.csv", 'r') as passwordFile:
+        reader = csv.reader(passwordFile)
+        for passw in reader:
+            passwordList.append(passw)
 
 
 # Username and Password saving
