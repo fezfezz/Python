@@ -120,8 +120,7 @@ def resetPassword():
     resettingPassword = False
 
 
-# this is completely fucked, reading normally just splits everything into rows, so it is useless
-# the fix to this is to probably just read the file, convert to a string, split the string into list
+# Reads file and splits into Lists
 def readFile():
     global usernameList
     global passwordList
@@ -129,15 +128,16 @@ def readFile():
     # Username reading
     with open("usernames.csv", 'r') as usernameFile:
         reader = csv.reader(usernameFile)
-        for user in reader:
-            usernameList.append(user)
-            print(usernameList)
+        for userN in reader:
+            usernameString = (', '.join(userN))
+    usernameList = usernameString.split(", ")
 
     # Password reading
     with open("passwords.csv", 'r') as passwordFile:
         reader = csv.reader(passwordFile)
-        for passw in reader:
-            passwordList.append(passw)
+        for passW in reader:
+            passwordString = (', '.join(passW))
+    passwordList = passwordString.split(', ')
 
 
 # Username and Password saving
