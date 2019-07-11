@@ -18,6 +18,7 @@ def main():
         if selection == "1":
             NewUser()
             NewPass()
+            writeFile()
             print("New user %s registered!" % usernameList[-1])
             main()
         elif selection == "2":
@@ -27,6 +28,7 @@ def main():
             main()
         elif selection == "3":
             resetPassword()
+            writeFile()
             main()
         selectMessage = "Please select a valid option"
         selection = input(selectMessage)
@@ -34,18 +36,18 @@ def main():
         sys.exit()
 
 
-# Validates that all characters in user inputted Password do not match any in the black list
-def ValidatePassword(inputPass):
-    if any(char in passwordBlackList for char in inputPass):
-        return False
-    return True
-
-
 # Validates that no other user is currently called the same name
 def ValidateUsername(inputUser):
     for name in usernameList:
         if name == inputUser:
             return False
+    return True
+
+
+# Validates that all characters in user inputted Password do not match any in the black list
+def ValidatePassword(inputPass):
+    if any(char in passwordBlackList for char in inputPass):
+        return False
     return True
 
 
