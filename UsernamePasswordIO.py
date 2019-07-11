@@ -6,7 +6,7 @@ from collections import defaultdict
 
 usernameList = []
 passwordList = []
-passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", ""]
+passwordBlackList = [",", "@", "[", "]", ";", "'", '"', "/", "=", "+", "-", ".", "!", "^", "%", "#", "?", "{", "}", "*", "(", ")", "`", "~", " ", "null", "", " "]
 resettingPassword = False
 
 
@@ -23,7 +23,7 @@ def main():
             main()
         elif selection == "2":
             userNumber = VerifyUsername()
-            if (VerifyPassword(userNumber) == True):
+            if VerifyPassword(userNumber) == True:
                 print("Welcome, %s!" % usernameList[userNumber])
             main()
         elif selection == "3":
@@ -41,12 +41,16 @@ def ValidateUsername(inputUser):
     for name in usernameList:
         if name == inputUser:
             return False
+        if not inputUser:
+            return False
     return True
 
 
 # Validates that all characters in user inputted Password do not match any in the black list
 def ValidatePassword(inputPass):
     if any(char in passwordBlackList for char in inputPass):
+        return False
+    if not inputPass:
         return False
     return True
 
